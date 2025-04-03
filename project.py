@@ -1,50 +1,41 @@
-from random import *
-
-def is_valid(s):
-    if s.isdigit() and 1 <= int(s) <= 100:
-        return True
-    else:
-        return False
-
-def guess():
-    print('Добро пожаловать в числовую угадайку')
-    print('Если хотите прекратить игру досрочно, в любой момент напишите "нет"')
-    print('Вам необходимо угадать число от 1 до N')
-    maxnum = input('Введите число N: ')
-    if maxnum == 'нет':
-        print('Спасибо, что играли в числовую угадайку. Еще увидимся...')
-        return
-    else:
-        maxnum = int(maxnum)
-    moneta = randint(1, maxnum)
-    flag = True
-    count = 1
-    while flag:
-        n = input(f'Угадайте число от 1 до {maxnum}: ')
-        if n == 'нет':
-            print('Спасибо, что играли в числовую угадайку. Еще увидимся...')
-            return
-
-        if is_valid(n):
-            n = int(n)
+def sdvig(symb, num):
+    abc = 'abcdefghijklmnopqrstuvwxyz'
+    symb_index = abc.find(symb.lower())
+    if symb in '1234567890 .,?"!\'-'' =)+*//':
+        return symb
+    if symb_index + num > 25:
+        if symb.lower() == symb:
+            return abc[symb_index + num - 26]
         else:
-            print(f'А может быть все-таки введем целое число от 1 до {maxnum}?')
-
-        if n > moneta:
-            print('Ваше число больше загаданного, попробуйте еще разок')
-            count+= 1
-        elif n == moneta:
-            print('Вы угадали, поздравляем!')
-            print(f'Тебе понадобилось {count} попыток')
-
-            vopros = input('Хотитие сыграть еще раз? (да/нет) ')
-            if vopros == 'да':
-                guess()
-            else:
-                print('Спасибо, что играли в числовую угадайку. Еще увидимся...')
-            flag = False
+            return abc[symb_index + num - 26].upper()
+    else:
+        if symb.lower() == symb:
+            return abc[symb_index + num]
         else:
-            print('Ваше число меньше загаданного, попробуйте еще разок')
-            count += 1
+            return abc[symb_index + num].upper()
+def dlina_slova(st):
+    st = "".join(filter(str.isalpha, st))
+    return len(st)
+def razbivka(name):
+    a=name.split('')
+    for i in range(len(a)):
+        b=dlina_slova(a[i])
+        return b
+def zadacha(name):
+    a=name.split()
+    c=''
+    for i in range(len(a)):
+        c+=' '
+        for j in a[i]:
+            b=dlina_slova(a[i])
+            a1=''.join(a[i][a[i].find(j)])
+            b2=''.join(sdvig(j,b))
+            c+=j.replace(a1,b2)
+            
+            
+    return c[1:]
 
-guess()
+
+
+name=input()
+print(zadacha(name))
